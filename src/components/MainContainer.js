@@ -1,38 +1,37 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react'
+import AddEmployee from './AddEmployee';
 import EmployeeList from './EmployeeList';
 import EmployeeInformation from './EmployeeInformation';
-import AddEmployee from './AddEmployee';
 import employeeData from '../data/data.json';
 
 const MainContainer = () => {
+    const [employees, setEmployees] = useState(employeeData);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [employeeInfo, setEmployeeInfo] = useState(employeeData);
-
-    const handleEmployeeClick = (employee) => {
-        setSelectedEmployee(employee);
-    };
 
     const handleDeleteEmployee = (id) => {
-        const newEmployeeData = employeeInfo.filter((employee) => employee.id !== id);
-        setEmployeeInfo(newEmployeeData);
+        const newEmployeeList = employees.filter((employee) => employee.id !== id);
+        setEmployees(newEmployeeList);
         if(selectedEmployee && selectedEmployee.id === id){
             setSelectedEmployee(null);
         }
     };
 
-    const handleAddEmployee = (newEmployee) => {
-        const newAddedEmployee = {...newEmployee, id: employeeInfo.length + 1};
-        setEmployeeInfo([...employeeInfo, newAddedEmployee]);
+    const onClickEmployee = (employee) => {
+        setSelectedEmployee(employee);
     };
 
+    const handleAddEmployee= (newEmployee) => {
+        const newAddedEmployee = {...newEmployee, id:employees.length + 1};
+        setEmployees([...employees, newAddedEmployee]);
+    };
+    
   return (
     <div>
-        <AddEmployee onAddEmployee={handleAddEmployee} />
-        <div style={{display:'flex',justifyContent:'center'}}>
-        <EmployeeList employeeInfo={employeeInfo} onEmployeeClick={handleEmployeeClick} handleDeleteEmployee={handleDeleteEmployee} />
-        <EmployeeInformation employee={selectedEmployee} />
+        <AddEmployee handleAddEmployee={handleAddEmployee} />
+        <div style={{display:'flex', justifyContent:'center'}}>
+            <EmployeeList employees={employees} handleDeleteEmployee={handleDeleteEmployee} handleClickEmployee={onClickEmployee} />
+            <EmployeeInformation employee={selectedEmployee} />
         </div>
-        
     </div>
   )
 }

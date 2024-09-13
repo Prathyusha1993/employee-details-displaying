@@ -1,17 +1,15 @@
 import React from 'react'
 
-const Modal = ({ onClose, isOpen, children }) => {
+const Modal = ({isOpen, onClose, children}) => {
     if(!isOpen) return null;
-    
-    return (
-        <div style={modalOverlayStyle}>
-            <div style={modalStyle}>
-                <button onClick={onClose} style={closeButtonStyle}>X</button>
-                {children}
-            </div>
-
+  return (
+    <div style={modalOverlayStyle}>
+        <div style={modalStyle}>
+        <button style={closeButtonStyle} onClick={onClose}>X</button>
+        {children}
         </div>
-    )
+    </div>
+  )
 };
 
 const modalOverlayStyle = {
